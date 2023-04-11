@@ -1,12 +1,11 @@
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Kurdi.AuthenticationService.Api.Routes
 {
-    public static class PortalEndPoint
+    public static class AuthenticationPoints
     {
-        public static void UseStockEndPoints(this WebApplication app)
+        public static void UseAuthenticationPoints(this WebApplication app)
         {
             RouteGroupBuilder stockGroup = app.MapGroup("/api/stock").WithTags("Stock");
 

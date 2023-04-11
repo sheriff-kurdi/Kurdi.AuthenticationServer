@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Kurdi.AuthenticationService.Responses;
 
 namespace Kurdi.AuthenticationService.Api.Responses
 {
