@@ -18,6 +18,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Kurdi.AuthenticationService.Infrastructure\Kurdi.AuthenticationService.Infrastructure.csproj" />
+      <ProjectReference Include="..\Kurdi.AuthenticationService.Services\Kurdi.AuthenticationService.Services.csproj" />
     </ItemGroup>
 
 </Project>

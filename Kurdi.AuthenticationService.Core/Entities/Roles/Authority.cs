@@ -15,10 +15,14 @@ namespace Kurdi.AuthenticationService.Core.Entities
         public string ModuleName { get; set; }
         [ForeignKey("ModuleName")]
         public Module Module { get; set; }
-        
+
         [Column(name: "action")]
         public string Action { get; set; }
 
+        public string GetAuthority()
+        {
+            return $"{this.ProjectsIdentifier}:{this.ModuleName}:{this.Action}";
+        }
 
     }
 }

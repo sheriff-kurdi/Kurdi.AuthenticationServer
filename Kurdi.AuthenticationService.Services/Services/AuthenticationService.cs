@@ -14,12 +14,12 @@ namespace Kurdi.AuthenticationServer.Services
     {
         private readonly UserManager<User> _userManager;
 
-        private readonly TokenGenerator _tokenHandeler;
+        private readonly TokenGenerator _tokenGenerator;
         private readonly AppDbContext _dbContext;
 
         public AuthenticationService(TokenGenerator tokenHandeler, AppDbContext dbContext, UserManager<User> userManager)
         {
-            this._tokenHandeler = tokenHandeler;
+            this._tokenGenerator = tokenHandeler;
             this._dbContext = dbContext;
             this._userManager = userManager;
 
@@ -73,16 +73,11 @@ namespace Kurdi.AuthenticationServer.Services
                 new Claim(ClaimTypes.Name, user.UserName),
              };
 
-            foreach (var userRole in userRoles)
+            foreach (Authority authority in user.Authorities)
             {
-                authClaims.Add(new Claim(ClaimTypes.Role, userRole));
+                authClaims.Add(new Claim(ClaimTypes.Role, authority.GetAuthority()));
             }
-
-            // return new { Status = "Success", id = user.Id, email = loginVM.Email, token = tokenHandeler.GenetrateToken(authClaims) };
-            return new { Status = "Success", id = user.Id, email = loginVM.Email };
-
-
-
+            return new { Status = "Success", id = user.Id, email = loginVM.Email, token = _tokenGenerator.GenetrateToken(authClaims) };
         }
     }
 }
