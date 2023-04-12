@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 using Microsoft.EntityFrameworkCore;
 
-namespace Kurdi.ECommerce.Inventory.Core.Entities
+namespace Kurdi.AuthenticationService.Core.Entities
 {
     [Owned]
     public class TimeStamps

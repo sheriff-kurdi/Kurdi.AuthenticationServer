@@ -7,10 +7,10 @@ using System.Xml.Linq;
 
 namespace Kurdi.ECommerce.Inventory.Core.Exceptions
 {
-    public class NegativeStockTransactionException : Exception
+    public class InValidTokenException : Exception
     {
         
-        public NegativeStockTransactionException() : base(String.Format("Transaction leeds to negative stock has been disabled"))
+        public InValidTokenException() : base(String.Format("This token is invalid"))
         {
 
         }

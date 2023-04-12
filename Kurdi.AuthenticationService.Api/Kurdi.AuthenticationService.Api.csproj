@@ -17,9 +17,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Kurdi.ECommerce.Inventory.Core\Kurdi.ECommerce.Inventory.Core.csproj" />
-      <ProjectReference Include="..\Kurdi.ECommerce.Inventory.Infrastructure\Kurdi.ECommerce.Inventory.Infrastructure.csproj" />
-      <ProjectReference Include="..\Kurdi.ECommerce.Inventory.Services\Kurdi.ECommerce.Inventory.Services.csproj" />
       <ProjectReference Include="..\Kurdi.AuthenticationService.Infrastructure\Kurdi.AuthenticationService.Infrastructure.csproj" />
     </ItemGroup>
 

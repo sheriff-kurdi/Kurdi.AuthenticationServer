@@ -1,8 +1,8 @@
 ﻿using Kurdi.AuthenticationServer.Services.Handlers;
-using Kurdi.AuthenticationServer.ViewModels;
-using Microsoft.AspNetCore.Http;
+using Kurdi.AuthenticationService.Core.Entities;
+using Kurdi.AuthenticationService.Core.VM;
+using Kurdi.AuthenticationService.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -12,73 +12,61 @@ namespace Kurdi.AuthenticationServer.Services
 {
     public class AuthenticationService
     {
-        private readonly UserManager<IdentityUser> userManager;
-        private readonly TokenGenerator tokenHandeler;
-        private readonly RoleManager<IdentityRole> roleManager;
-        private readonly IHttpContextAccessor httpContextAccessor;
+        private readonly UserManager<User> _userManager;
 
-        public AuthenticationService(UserManager<IdentityUser> userManager, TokenGenerator tokenHandeler, RoleManager<IdentityRole> roleManager, IHttpContextAccessor httpContextAccessor)
+        private readonly TokenGenerator _tokenHandeler;
+        private readonly AppDbContext _dbContext;
+
+        public AuthenticationService(TokenGenerator tokenHandeler, AppDbContext dbContext, UserManager<User> userManager)
         {
-            this.userManager = userManager;
-            this.tokenHandeler = tokenHandeler;
-            this.roleManager = roleManager;
-            this.httpContextAccessor = httpContextAccessor;
-        }
+            this._tokenHandeler = tokenHandeler;
+            this._dbContext = dbContext;
+             this._userManager = userManager;
 
+        }
         public async Task<object> Register(RegisterVM registerVM)
         {
-            var userExists = await userManager.FindByNameAsync(registerVM.Email);
+            bool isUserExisted = this._dbContext.Users.Any(user => user.Email == registerVM.Email);
             if (registerVM.ConfirmPassword != registerVM.Password)
             {
                 return new { Status = "Error", Message = "Password do not match!" };
             }
-            if (userExists != null)
+            if (isUserExisted)
             {
                 return new { Status = "Error", Message = "User already exists!" };
             }
 
-            IdentityUser user = new IdentityUser
+            User user = new User
             {
+                //TODO: configure saveDatabseContext to set created at and updated at
                 Email = registerVM.Email,
-                UserName = registerVM.Email,
+                FirstName = registerVM.FirstName,
+                LastName = registerVM.LastName,
+
             };
 
-            var result = await userManager.CreateAsync(user, registerVM.Password);
+            await this._dbContext.AddAsync(user);
+            await this._dbContext.SaveChangesAsync();
 
-
-
-            if (!result.Succeeded)
-            {
-                return new { Status = "Error", Message = result.Errors };
-            }
-
-
-            var authClaims = new List<Claim>
-             {
-                new Claim(ClaimTypes.Name, user.UserName),
-             };
-
-            return new { Status = "Success", Message = "User created successfully!", email = registerVM.Email, token = tokenHandeler.GenetrateToken(authClaims) };
+            return new { Status = "Success", Message = "User created successfully!", email = registerVM.Email };
         }
         public async Task<object> Login(LoginVM loginVM)
         {
 
-            var user = await userManager.FindByNameAsync(loginVM.Email);
+            var user = await _userManager.FindByEmailAsync(loginVM.Email);
             if (user == null)
             {
                 return new { Status = "Error", Message = "You are not registerd yet!" };
 
             }
 
-
-
-            if (!await userManager.CheckPasswordAsync(user, loginVM.Password))
+            if (!await _userManager.CheckPasswordAsync(user, loginVM.Password))
             {
                 return new { Status = "Error", Message = "Login failed! Please check user details , password and try again." };
             }
 
 
-            var userRoles = await userManager.GetRolesAsync(user);
+            var userRoles = await _userManager.GetRolesAsync(user);
 
             var authClaims = new List<Claim>
              {

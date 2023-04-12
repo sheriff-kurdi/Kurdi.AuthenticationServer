@@ -1,13 +1,12 @@
 
 using Kurdi.AuthenticationService.Api.Routes;
-using Kurdi.ECommerce.Inventory.Infrastructure.Data;
+using Kurdi.AuthenticationService.Infrastructure.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors();
-
 builder.Services.AddDbContext<AppDbContext>();
 builder.Services.AddLocalization();
 
