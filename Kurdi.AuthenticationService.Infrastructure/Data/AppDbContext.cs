@@ -12,6 +12,18 @@ namespace Kurdi.AuthenticationService.Infrastructure.Data
         {
             _configuration = configuration;
         }
+
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Authority>()
+                .HasKey(authority => new {authority.ProjectsIdentifier, authority.ModuleName, authority.Action});
+
+                modelBuilder.Entity<Module>()
+                .HasKey(authority => new {authority.ProjectsIdentifier, authority.Name});
+ 
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
             // connect to postgres with connection string from app settings
@@ -21,6 +33,12 @@ namespace Kurdi.AuthenticationService.Infrastructure.Data
         //protected override void OnConfiguring(DbContextOptionsBuilder options)
         //       => options.UseMySQL(configuration["db_conn"]);
         public DbSet<User> Users { get; set; }
+        public DbSet<Authority> Authorities { get; set; }
+        public DbSet<Module> Modules { get; set; }
+        public DbSet<Project> Projects { get; set; }
+        public DbSet<Action> Actions { get; set; }
+
+
 
     }
 }

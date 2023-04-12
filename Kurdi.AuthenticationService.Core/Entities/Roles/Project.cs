@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Kurdi.AuthenticationService.Core.Enums;
@@ -10,12 +11,9 @@ namespace Kurdi.AuthenticationService.Core.Entities
     {
         [Key]
         public string Id { get; set; }
-        
+
         [Column(name: "description")]
         public string Description { get; set; }
-
-        [Column(name: "action")]
-        public string Action { get; set; }
-
+        public ICollection<Authority> Authorities { get; set; } = new List<Authority>();
     }
 }
