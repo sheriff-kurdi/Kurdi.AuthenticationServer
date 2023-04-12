@@ -21,7 +21,7 @@ namespace Kurdi.AuthenticationServer.Services
         {
             this._tokenHandeler = tokenHandeler;
             this._dbContext = dbContext;
-             this._userManager = userManager;
+            this._userManager = userManager;
 
         }
         public async Task<object> Register(RegisterVM registerVM)
@@ -78,7 +78,9 @@ namespace Kurdi.AuthenticationServer.Services
                 authClaims.Add(new Claim(ClaimTypes.Role, userRole));
             }
 
-            return new { Status = "Success", id = user.Id, email = loginVM.Email, token = tokenHandeler.GenetrateToken(authClaims) };
+            // return new { Status = "Success", id = user.Id, email = loginVM.Email, token = tokenHandeler.GenetrateToken(authClaims) };
+            return new { Status = "Success", id = user.Id, email = loginVM.Email };
+
 
 
         }
