@@ -13,7 +13,7 @@ Authentication Service with Dotnet Core 7
 
 **Databse:** PostgreSQL
 
-**Server:** Dotnet core with minimal APIs 7
+**Server:** Dotnet core 7 with minimal APIs 
 
 
 
