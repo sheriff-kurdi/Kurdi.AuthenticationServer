@@ -11,4 +11,7 @@
     <ProjectReference Include="..\Kurdi.AuthenticationService.Core\Kurdi.AuthenticationService.Core.csproj" />
   </ItemGroup>
 
+
+
+
 </Project>

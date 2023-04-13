@@ -1,5 +1,6 @@
 ﻿using Kurdi.AuthenticationServer.Services.Handlers;
 using Kurdi.AuthenticationService.Core.Entities;
+using Kurdi.AuthenticationService.Core.Entities.Authorities;
 using Kurdi.AuthenticationService.Core.VM;
 using Kurdi.AuthenticationService.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;

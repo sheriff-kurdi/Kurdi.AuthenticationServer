@@ -1,5 +1,6 @@
 using System;
 using Kurdi.AuthenticationService.Core.Entities;
+using Kurdi.AuthenticationService.Core.Entities.Authorities;
 using Xunit;
 
 namespace Kurdi.AuthenticationServer.Test
@@ -18,7 +19,7 @@ namespace Kurdi.AuthenticationServer.Test
             {
                 ProjectsIdentifier = ProjectsIdentifier,
                 ModuleName = moduleName,
-                Action = action
+                ActionName = action
             };
 
             //action

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using Kurdi.AuthenticationService.Core.Entities.Authorities;
 using Microsoft.AspNetCore.Identity;
 
 namespace Kurdi.AuthenticationService.Core.Entities

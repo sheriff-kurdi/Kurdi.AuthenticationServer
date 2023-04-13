@@ -10,8 +10,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors();
 builder.Services.AddDbContext<AppDbContext>();
-builder.Services.AddSingleton<TokenGenerator>();
-builder.Services.AddSingleton<AuthenticationService>();
+// builder.Services.AddSingleton<TokenGenerator>();
+// builder.Services.AddSingleton<AuthenticationService>();
 
 builder.Services.AddLocalization();
 
