@@ -44,7 +44,7 @@ To deploy this project
 - Create **authentication_service** database 
     
 ```bash
-  make docker.postgres.create
+  make update.database
 ```
     
 - Run application
