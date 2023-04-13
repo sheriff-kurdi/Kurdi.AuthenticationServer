@@ -12,6 +12,14 @@ update.database:
 	cd Kurdi.AuthenticationService.Api; \
 	dotnet ef database update  --context AppDbContext -p ../Kurdi.AuthenticationService.Infrastructure/Kurdi.AuthenticationService.Infrastructure.csproj 
 
+clean.database.migration:
+	docker exec -it postgres psql -U postgres -c "DROP DATABASE IF EXISTS authentication_service"
+	rm -rf Kurdi.AuthenticationService.Infrastructure/Data/Migrations;
+	cd Kurdi.AuthenticationService.Api;\
+	dotnet ef migrations add Inits --context AppDbContext -p ../Kurdi.AuthenticationService.Infrastructure/Kurdi.AuthenticationService.Infrastructure.csproj -o Data/Migrations
+	cd Kurdi.AuthenticationService.Api;\
+	dotnet ef database update  --context AppDbContext -p ../Kurdi.AuthenticationService.Infrastructure/Kurdi.AuthenticationService.Infrastructure.csproj 
+
 
 test:
 	cd Kurdi.AuthenticationService.Test;\
