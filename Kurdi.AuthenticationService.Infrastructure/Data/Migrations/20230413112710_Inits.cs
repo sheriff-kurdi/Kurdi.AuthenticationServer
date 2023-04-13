@@ -1,13 +1,12 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace Kurdi.AuthenticationService.Infrastructure.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class Inits : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,14 +15,11 @@ namespace Kurdi.AuthenticationService.Infrastructure.Data.Migrations
                 name: "actions",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     actionname = table.Column<string>(name: "action_name", type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_actions", x => x.Id);
-                    table.UniqueConstraint("AK_actions_action_name", x => x.actionname);
+                    table.PrimaryKey("PK_actions", x => x.actionname);
                 });
 
             migrationBuilder.CreateTable(
@@ -70,18 +66,17 @@ namespace Kurdi.AuthenticationService.Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     projectidentifier = table.Column<string>(name: "project_identifier", type: "text", nullable: false),
-                    name = table.Column<string>(type: "text", nullable: false),
-                    projectidentifier1 = table.Column<string>(name: "project_identifier1", type: "text", nullable: true)
+                    name = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_modules", x => new { x.name, x.projectidentifier });
-                    table.UniqueConstraint("AK_modules_name", x => x.name);
                     table.ForeignKey(
-                        name: "FK_modules_projects_project_identifier1",
-                        column: x => x.projectidentifier1,
+                        name: "FK_modules_projects_project_identifier",
+                        column: x => x.projectidentifier,
                         principalTable: "projects",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -91,7 +86,6 @@ namespace Kurdi.AuthenticationService.Infrastructure.Data.Migrations
                     projectidentifier = table.Column<string>(name: "project_identifier", type: "text", nullable: false),
                     modulename = table.Column<string>(name: "module_name", type: "text", nullable: false),
                     actionname = table.Column<string>(name: "action_name", type: "text", nullable: false),
-                    ProjectId1 = table.Column<string>(type: "text", nullable: true),
                     ProjectId = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
@@ -104,10 +98,10 @@ namespace Kurdi.AuthenticationService.Infrastructure.Data.Migrations
                         principalColumn: "action_name",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_authorities_modules_module_name",
-                        column: x => x.modulename,
+                        name: "FK_authorities_modules_module_name_project_identifier",
+                        columns: x => new { x.modulename, x.projectidentifier },
                         principalTable: "modules",
-                        principalColumn: "name",
+                        principalColumns: new[] { "name", "project_identifier" },
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_authorities_projects_ProjectId",
@@ -115,10 +109,11 @@ namespace Kurdi.AuthenticationService.Infrastructure.Data.Migrations
                         principalTable: "projects",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_authorities_projects_ProjectId1",
-                        column: x => x.ProjectId1,
+                        name: "FK_authorities_projects_project_identifier",
+                        column: x => x.projectidentifier,
                         principalTable: "projects",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -153,9 +148,9 @@ namespace Kurdi.AuthenticationService.Infrastructure.Data.Migrations
                 column: "action_name");
 
             migrationBuilder.CreateIndex(
-                name: "IX_authorities_module_name",
+                name: "IX_authorities_module_name_project_identifier",
                 table: "authorities",
-                column: "module_name");
+                columns: new[] { "module_name", "project_identifier" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_authorities_ProjectId",
@@ -163,19 +158,14 @@ namespace Kurdi.AuthenticationService.Infrastructure.Data.Migrations
                 column: "ProjectId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_authorities_ProjectId1",
-                table: "authorities",
-                column: "ProjectId1");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_AuthorityUser_AuthoritiesProjectIdentifier_AuthoritiesModul~",
                 table: "AuthorityUser",
                 columns: new[] { "AuthoritiesProjectIdentifier", "AuthoritiesModuleName", "AuthoritiesActionName" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_modules_project_identifier1",
+                name: "IX_modules_project_identifier",
                 table: "modules",
-                column: "project_identifier1");
+                column: "project_identifier");
         }
 
         /// <inheritdoc />
