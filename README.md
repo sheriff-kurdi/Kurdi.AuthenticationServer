@@ -27,6 +27,8 @@ Authentication Service with Dotnet Core 7
 
 - [xUnit](https://xunit.net/docs/getting-started/netcore/cmdline)
 
+- [GNU make](https://www.gnu.org/software/make/manual/make.html)
+
 
 ## Run Locally
 
