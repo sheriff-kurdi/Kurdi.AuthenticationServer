@@ -27,27 +27,30 @@ namespace Kurdi.AuthenticationServer.Services
         }
         public async Task<object> Register(RegisterVM registerVM)
         {
-            bool isUserExisted = this._dbContext.Users.Any(user => user.Email == registerVM.Email);
+            var userExists = await this._userManager.FindByEmailAsync(registerVM.Email);
             if (registerVM.ConfirmPassword != registerVM.Password)
             {
                 return new { Status = "Error", Message = "Password do not match!" };
             }
-            if (isUserExisted)
+            if (userExists != null)
             {
                 return new { Status = "Error", Message = "User already exists!" };
             }
 
             User user = new User
             {
-                //TODO: configure saveDatabseContext to set created at and updated at
                 Email = registerVM.Email,
-                FirstName = registerVM.FirstName,
-                LastName = registerVM.LastName,
-
+                UserName = registerVM.Email,
             };
 
-            await this._dbContext.AddAsync(user);
-            await this._dbContext.SaveChangesAsync();
+            var result = await this._userManager.CreateAsync(user, registerVM.Password);
+
+
+
+            if (!result.Succeeded)
+            {
+                return new { Status = "Error", Message = result.Errors };
+            }
 
             return new { Status = "Success", Message = "User created successfully!", email = registerVM.Email };
         }
