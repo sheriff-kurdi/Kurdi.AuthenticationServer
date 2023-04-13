@@ -17,7 +17,7 @@ namespace Kurdi.AuthenticationServer.Test
             //arrange
             Authority authority = new Authority
             {
-                ProjectsIdentifier = ProjectsIdentifier,
+                ProjectIdentifier = ProjectsIdentifier,
                 ModuleName = moduleName,
                 ActionName = action
             };

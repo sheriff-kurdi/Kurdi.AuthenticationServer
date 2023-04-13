@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Kurdi.AuthenticationService.Infrastructure.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -71,15 +71,15 @@ namespace Kurdi.AuthenticationService.Infrastructure.Data.Migrations
                 {
                     projectidentifier = table.Column<string>(name: "project_identifier", type: "text", nullable: false),
                     name = table.Column<string>(type: "text", nullable: false),
-                    ProjectsIdentifier = table.Column<string>(type: "text", nullable: true)
+                    projectidentifier1 = table.Column<string>(name: "project_identifier1", type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_modules", x => new { x.name, x.projectidentifier });
                     table.UniqueConstraint("AK_modules_name", x => x.name);
                     table.ForeignKey(
-                        name: "FK_modules_projects_ProjectsIdentifier",
-                        column: x => x.ProjectsIdentifier,
+                        name: "FK_modules_projects_project_identifier1",
+                        column: x => x.projectidentifier1,
                         principalTable: "projects",
                         principalColumn: "Id");
                 });
@@ -88,7 +88,7 @@ namespace Kurdi.AuthenticationService.Infrastructure.Data.Migrations
                 name: "authorities",
                 columns: table => new
                 {
-                    projectsidentifier = table.Column<string>(name: "projects_identifier", type: "text", nullable: false),
+                    projectidentifier = table.Column<string>(name: "project_identifier", type: "text", nullable: false),
                     modulename = table.Column<string>(name: "module_name", type: "text", nullable: false),
                     actionname = table.Column<string>(name: "action_name", type: "text", nullable: false),
                     ProjectId1 = table.Column<string>(type: "text", nullable: true),
@@ -96,7 +96,7 @@ namespace Kurdi.AuthenticationService.Infrastructure.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_authorities", x => new { x.projectsidentifier, x.modulename, x.actionname });
+                    table.PrimaryKey("PK_authorities", x => new { x.projectidentifier, x.modulename, x.actionname });
                     table.ForeignKey(
                         name: "FK_authorities_actions_action_name",
                         column: x => x.actionname,
@@ -126,18 +126,18 @@ namespace Kurdi.AuthenticationService.Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "text", nullable: false),
-                    AuthoritiesProjectsIdentifier = table.Column<string>(type: "text", nullable: false),
+                    AuthoritiesProjectIdentifier = table.Column<string>(type: "text", nullable: false),
                     AuthoritiesModuleName = table.Column<string>(type: "text", nullable: false),
                     AuthoritiesActionName = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AuthorityUser", x => new { x.UserId, x.AuthoritiesProjectsIdentifier, x.AuthoritiesModuleName, x.AuthoritiesActionName });
+                    table.PrimaryKey("PK_AuthorityUser", x => new { x.UserId, x.AuthoritiesProjectIdentifier, x.AuthoritiesModuleName, x.AuthoritiesActionName });
                     table.ForeignKey(
-                        name: "FK_AuthorityUser_authorities_AuthoritiesProjectsIdentifier_Aut~",
-                        columns: x => new { x.AuthoritiesProjectsIdentifier, x.AuthoritiesModuleName, x.AuthoritiesActionName },
+                        name: "FK_AuthorityUser_authorities_AuthoritiesProjectIdentifier_Auth~",
+                        columns: x => new { x.AuthoritiesProjectIdentifier, x.AuthoritiesModuleName, x.AuthoritiesActionName },
                         principalTable: "authorities",
-                        principalColumns: new[] { "projects_identifier", "module_name", "action_name" },
+                        principalColumns: new[] { "project_identifier", "module_name", "action_name" },
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_AuthorityUser_users_UserId",
@@ -168,14 +168,14 @@ namespace Kurdi.AuthenticationService.Infrastructure.Data.Migrations
                 column: "ProjectId1");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AuthorityUser_AuthoritiesProjectsIdentifier_AuthoritiesModu~",
+                name: "IX_AuthorityUser_AuthoritiesProjectIdentifier_AuthoritiesModul~",
                 table: "AuthorityUser",
-                columns: new[] { "AuthoritiesProjectsIdentifier", "AuthoritiesModuleName", "AuthoritiesActionName" });
+                columns: new[] { "AuthoritiesProjectIdentifier", "AuthoritiesModuleName", "AuthoritiesActionName" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_modules_ProjectsIdentifier",
+                name: "IX_modules_project_identifier1",
                 table: "modules",
-                column: "ProjectsIdentifier");
+                column: "project_identifier1");
         }
 
         /// <inheritdoc />

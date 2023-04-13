@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Kurdi.AuthenticationService.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230413101949_Init")]
-    partial class Init
+    [Migration("20230413103032_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -30,7 +30,7 @@ namespace Kurdi.AuthenticationService.Infrastructure.Data.Migrations
                     b.Property<string>("UserId")
                         .HasColumnType("text");
 
-                    b.Property<string>("AuthoritiesProjectsIdentifier")
+                    b.Property<string>("AuthoritiesProjectIdentifier")
                         .HasColumnType("text");
 
                     b.Property<string>("AuthoritiesModuleName")
@@ -39,9 +39,9 @@ namespace Kurdi.AuthenticationService.Infrastructure.Data.Migrations
                     b.Property<string>("AuthoritiesActionName")
                         .HasColumnType("text");
 
-                    b.HasKey("UserId", "AuthoritiesProjectsIdentifier", "AuthoritiesModuleName", "AuthoritiesActionName");
+                    b.HasKey("UserId", "AuthoritiesProjectIdentifier", "AuthoritiesModuleName", "AuthoritiesActionName");
 
-                    b.HasIndex("AuthoritiesProjectsIdentifier", "AuthoritiesModuleName", "AuthoritiesActionName");
+                    b.HasIndex("AuthoritiesProjectIdentifier", "AuthoritiesModuleName", "AuthoritiesActionName");
 
                     b.ToTable("AuthorityUser");
                 });
@@ -66,9 +66,9 @@ namespace Kurdi.AuthenticationService.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Kurdi.AuthenticationService.Core.Entities.Authorities.Authority", b =>
                 {
-                    b.Property<string>("ProjectsIdentifier")
+                    b.Property<string>("ProjectIdentifier")
                         .HasColumnType("text")
-                        .HasColumnName("projects_identifier");
+                        .HasColumnName("project_identifier");
 
                     b.Property<string>("ModuleName")
                         .HasColumnType("text")
@@ -84,7 +84,7 @@ namespace Kurdi.AuthenticationService.Infrastructure.Data.Migrations
                     b.Property<string>("ProjectId1")
                         .HasColumnType("text");
 
-                    b.HasKey("ProjectsIdentifier", "ModuleName", "ActionName");
+                    b.HasKey("ProjectIdentifier", "ModuleName", "ActionName");
 
                     b.HasIndex("ActionName");
 
@@ -107,14 +107,18 @@ namespace Kurdi.AuthenticationService.Infrastructure.Data.Migrations
                         .HasColumnType("text")
                         .HasColumnName("project_identifier");
 
-                    b.Property<string>("ProjectsIdentifier")
+                    b.Property<string>("project_identifier")
                         .HasColumnType("text");
 
                     b.HasKey("Name", "ProjectIdentifier");
 
-                    b.HasIndex("ProjectsIdentifier");
+                    b.HasIndex("project_identifier");
 
-                    b.ToTable("modules", (string)null);
+                    b.ToTable("modules", null, t =>
+                        {
+                            t.Property("project_identifier")
+                                .HasColumnName("project_identifier1");
+                        });
                 });
 
             modelBuilder.Entity("Kurdi.AuthenticationService.Core.Entities.Authorities.Project", b =>
@@ -201,7 +205,7 @@ namespace Kurdi.AuthenticationService.Infrastructure.Data.Migrations
 
                     b.HasOne("Kurdi.AuthenticationService.Core.Entities.Authorities.Authority", null)
                         .WithMany()
-                        .HasForeignKey("AuthoritiesProjectsIdentifier", "AuthoritiesModuleName", "AuthoritiesActionName")
+                        .HasForeignKey("AuthoritiesProjectIdentifier", "AuthoritiesModuleName", "AuthoritiesActionName")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -241,7 +245,7 @@ namespace Kurdi.AuthenticationService.Infrastructure.Data.Migrations
                 {
                     b.HasOne("Kurdi.AuthenticationService.Core.Entities.Authorities.Project", "Project")
                         .WithMany()
-                        .HasForeignKey("ProjectsIdentifier");
+                        .HasForeignKey("project_identifier");
 
                     b.Navigation("Project");
                 });

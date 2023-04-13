@@ -4,7 +4,7 @@ namespace Kurdi.AuthenticationService.Core.Entities.Authorities
 {
     public class Authority
     {
-        public string ProjectsIdentifier { get; set; }
+        public string ProjectIdentifier { get; set; }
         public Project Project { get; set; }
         public string ModuleName { get; set; }
         public Module Module { get; set; }
@@ -13,7 +13,7 @@ namespace Kurdi.AuthenticationService.Core.Entities.Authorities
         public Action Action { get; set; }
         public string GetAuthority()
         {
-            return $"{this.ProjectsIdentifier}:{this.ModuleName}:{this.ActionName}";
+            return $"{this.ProjectIdentifier}:{this.ModuleName}:{this.ActionName}";
         }
 
     }

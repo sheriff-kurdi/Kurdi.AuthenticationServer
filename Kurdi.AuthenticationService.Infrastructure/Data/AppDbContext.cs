@@ -32,7 +32,7 @@ namespace Kurdi.AuthenticationService.Infrastructure.Data
             modelBuilder.Entity<Module>()
                 .HasOne(module => module.Project)
                 .WithMany()
-                .HasForeignKey("ProjectsIdentifier")
+                .HasForeignKey("project_identifier")
                 .HasPrincipalKey(project => project.Id);
             modelBuilder.Entity<Module>().Property(module => module.ProjectIdentifier).HasColumnName("project_identifier");
             modelBuilder.Entity<Module>().Property(module => module.Name).HasColumnName("name");
@@ -47,7 +47,7 @@ namespace Kurdi.AuthenticationService.Infrastructure.Data
             modelBuilder.Entity<Authority>().ToTable("authorities");
 
             modelBuilder.Entity<Authority>()
-                .HasKey(authority => new { authority.ProjectsIdentifier, authority.ModuleName, authority.ActionName });
+                .HasKey(authority => new { authority.ProjectIdentifier, authority.ModuleName, authority.ActionName });
             modelBuilder.Entity<Authority>()
                 .HasOne(authority => authority.Module)
                 .WithMany()
@@ -62,7 +62,7 @@ namespace Kurdi.AuthenticationService.Infrastructure.Data
 
             modelBuilder.Entity<Authority>().Property(authority => authority.ActionName).HasColumnName("action_name");
             modelBuilder.Entity<Authority>().Property(authority => authority.ModuleName).HasColumnName("module_name");
-            modelBuilder.Entity<Authority>().Property(authority => authority.ProjectsIdentifier).HasColumnName("projects_identifier");
+            modelBuilder.Entity<Authority>().Property(authority => authority.ProjectIdentifier).HasColumnName("project_identifier");
             #endregion
 
             #region User configure
