@@ -9,6 +9,6 @@ namespace Kurdi.AuthenticationService.Core.VM
     {
         public string UserId { get; set; }
         public string ProjectIdentifier { get; set; }
-        public string Name { get; set; }
+        public string ModuleName { get; set; }
     }
 }
