@@ -12,6 +12,7 @@ update.database:
 	cd Kurdi.AuthenticationService.Api; \
 	dotnet ef database update  --context AppDbContext -p ../Kurdi.AuthenticationService.Infrastructure/Kurdi.AuthenticationService.Infrastructure.csproj 
 
+
 test:
 	cd Kurdi.AuthenticationService.Test;\
 	dotnet test
