@@ -6,6 +6,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Kurdi.AuthenticationService.Infrastructure\Kurdi.AuthenticationService.Infrastructure.csproj" />
+    <ProjectReference Include="..\Kurdi.AuthenticationService.Shared\Kurdi.AuthenticationService.Shared.csproj" />
+    <PackageReference Include="NLog" Version="4.6.5" />
+    <PackageReference Include="NLog.Extensions.Logging" Version="1.5.1" />
+
   </ItemGroup>
 
 </Project>

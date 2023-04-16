@@ -1,4 +1,5 @@
 
+using Kurdi.AuthenticationService.Services.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Kurdi.AuthenticationService.Api.Routes
@@ -8,8 +9,16 @@ namespace Kurdi.AuthenticationService.Api.Routes
         public static void UseAuthenticationPoints(this WebApplication app)
         {
             RouteGroupBuilder stockGroup = app.MapGroup("/api/stock").WithTags("Stock");
+            RouteGroupBuilder simpleGroup = app.MapGroup("/").WithTags("Simple");
 
 
+
+            simpleGroup.MapGet("/log", () => "hi");
+            simpleGroup.MapGet("/ConsoleLog",  ([FromServices] SimpleService simpleService) =>
+            {
+               simpleService.Simple();
+               return Results.Ok();
+            });
 
             // stockGroup.MapGet("/{sku}", async (string sku, [FromServices] IProductsRepo stockItemsRepository) =>
             // {
