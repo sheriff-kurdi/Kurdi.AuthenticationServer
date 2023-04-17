@@ -4,6 +4,7 @@ using Kurdi.AuthenticationService.Services;
 using Kurdi.AuthenticationService.Api.Routes;
 using Kurdi.AuthenticationService.Infrastructure.Data;
 using NLog.Web;
+using Kurdi.AuthenticationService.Services.Handlers;
 
 var builder = WebApplication.CreateBuilder(args);
 // NLog: Setup NLog for Dependency injection
@@ -15,6 +16,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddCors();
 builder.Services.AddDbContext<AppDbContext>();
 builder.Services.AddSingleton<RegisterationService>();
+builder.Services.AddSingleton<TokenGenerator>();
 
 
 builder.Services.AddLocalization();

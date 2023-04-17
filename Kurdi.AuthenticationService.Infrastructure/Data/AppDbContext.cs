@@ -1,12 +1,13 @@
 ﻿using Kurdi.AuthenticationService.Core.Entities;
 using Kurdi.AuthenticationService.Core.Entities.Authorities;
 using Kurdi.AuthenticationService.Infrastructure.Data.FluentAPI;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace Kurdi.AuthenticationService.Infrastructure.Data
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<User>
     {
         private readonly IConfiguration _configuration;
 
@@ -33,7 +34,6 @@ namespace Kurdi.AuthenticationService.Infrastructure.Data
 
         //protected override void OnConfiguring(DbContextOptionsBuilder options)
         //       => options.UseMySQL(configuration["db_conn"]);
-        public DbSet<User> Users { get; set; }
         public DbSet<Authority> Authorities { get; set; }
         public DbSet<Module> Modules { get; set; }
         public DbSet<Project> Projects { get; set; }

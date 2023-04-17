@@ -15,7 +15,6 @@ namespace Kurdi.AuthenticationService.Services
     public class RegisterationService
     {
         private readonly UserManager<User> _userManager;
-
         private readonly TokenGenerator _tokenGenerator;
         private readonly AppDbContext _dbContext;
 
