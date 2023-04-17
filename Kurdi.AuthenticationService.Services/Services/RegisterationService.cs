@@ -1,4 +1,4 @@
-﻿using Kurdi.AuthenticationServer.Services.Handlers;
+﻿using Kurdi.AuthenticationService.Services.Handlers;
 using Kurdi.AuthenticationService.Core.Entities;
 using Kurdi.AuthenticationService.Core.Entities.Authorities;
 using Kurdi.AuthenticationService.Core.VM;
@@ -8,33 +8,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Kurdi.AuthenticationService.Core.Exceptions;
 
-namespace Kurdi.AuthenticationServer.Services
+namespace Kurdi.AuthenticationService.Services
 {
-    public class AuthenticationService
+    public class RegisterationService
     {
         private readonly UserManager<User> _userManager;
 
         private readonly TokenGenerator _tokenGenerator;
         private readonly AppDbContext _dbContext;
 
-        public AuthenticationService(TokenGenerator tokenHandeler, AppDbContext dbContext, UserManager<User> userManager)
+        public RegisterationService(TokenGenerator tokenHandeler, AppDbContext dbContext, UserManager<User> userManager)
         {
             this._tokenGenerator = tokenHandeler;
             this._dbContext = dbContext;
             this._userManager = userManager;
 
         }
-        public async Task<object> Register(RegisterVM registerVM)
+        public async Task Register(RegisterVM registerVM)
         {
             var userExists = await this._userManager.FindByEmailAsync(registerVM.Email);
             if (registerVM.ConfirmPassword != registerVM.Password)
             {
-                return new { Status = "Error", Message = "Password do not match!" };
+                throw new PasswordsNotMatchedException();
             }
             if (userExists != null)
             {
-                return new { Status = "Error", Message = "User already exists!" };
+                throw new UserAlreadyExistedException();
             }
 
             User user = new User
@@ -49,24 +50,23 @@ namespace Kurdi.AuthenticationServer.Services
 
             if (!result.Succeeded)
             {
-                return new { Status = "Error", Message = result.Errors };
+                throw new System.Exception();
+
             }
 
-            return new { Status = "Success", Message = "User created successfully!", email = registerVM.Email };
         }
-        public async Task<object> Login(LoginVM loginVM)
+        public async Task<string> Login(LoginVM loginVM)
         {
 
             var user = await _userManager.FindByEmailAsync(loginVM.Email);
             if (user == null)
             {
-                return new { Status = "Error", Message = "You are not registerd yet!" };
-
+                throw new UserNotFoundException();
             }
 
             if (!await _userManager.CheckPasswordAsync(user, loginVM.Password))
             {
-                return new { Status = "Error", Message = "Login failed! Please check user details , password and try again." };
+                throw new InvalidPasswordException();
             }
 
 
@@ -81,7 +81,7 @@ namespace Kurdi.AuthenticationServer.Services
             {
                 authClaims.Add(new Claim(ClaimTypes.Role, authority.GetAuthority()));
             }
-            return new { Status = "Success", id = user.Id, email = loginVM.Email, token = _tokenGenerator.GenetrateToken(authClaims) };
+            return _tokenGenerator.GenetrateToken(authClaims);
         }
     }
 }

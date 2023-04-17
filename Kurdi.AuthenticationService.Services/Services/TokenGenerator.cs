@@ -8,7 +8,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kurdi.AuthenticationServer.Services.Handlers
+namespace Kurdi.AuthenticationService.Services.Handlers
 {
     public class TokenGenerator
     {

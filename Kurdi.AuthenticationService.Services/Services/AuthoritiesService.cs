@@ -10,7 +10,7 @@ using Kurdi.AuthenticationService.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Action = Kurdi.AuthenticationService.Core.Entities.Authorities.Action;
 
-namespace Kurdi.AuthenticationService.Services.Services
+namespace Kurdi.AuthenticationService.Services
 {
     public class AuthoritiesService
     {
