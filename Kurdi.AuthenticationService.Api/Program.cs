@@ -8,7 +8,9 @@ using Kurdi.AuthenticationService.Services.Handlers;
 using Kurdi.AuthenticationService.Core.Entities;
 using Microsoft.Extensions.DependencyInjection;
 
+
 var builder = WebApplication.CreateBuilder(args);
+
 // NLog: Setup NLog for Dependency injection
 builder.Logging.ClearProviders();
 builder.Host.UseNLog();

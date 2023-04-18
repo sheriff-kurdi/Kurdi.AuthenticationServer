@@ -24,6 +24,8 @@ namespace Kurdi.AuthenticationService.Infrastructure.Data
             ActionsConfiguration.Configure(modelBuilder);
             AuthoritiesConfiguration.Configure(modelBuilder);
             UsersConfiguration.Configure(modelBuilder);
+            base.OnModelCreating(modelBuilder);
+
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
