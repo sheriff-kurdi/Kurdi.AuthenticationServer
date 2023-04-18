@@ -9,9 +9,8 @@ namespace Kurdi.AuthenticationService.Core.Entities
     [Table(name: "users")]
     public class User : IdentityUser
     {
-        [Column(name: "first_name")]
+        public override string Id { get; set; }
         public string FirstName { get; set; }
-        [Column(name: "last_name")]
         public string LastName { get; set; }
         public List<Authority> Authorities { get; set; } = new List<Authority>();
 

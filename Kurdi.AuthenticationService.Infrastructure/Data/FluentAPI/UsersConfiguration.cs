@@ -16,6 +16,7 @@ namespace Kurdi.AuthenticationService.Infrastructure.Data.FluentAPI
             modelBuilder.Entity<User>()
                 .HasMany(user => user.Authorities)
                 .WithMany();
+                  modelBuilder.Entity<User>().HasKey(user => user.Id);
             modelBuilder.Entity<User>().Property(user => user.FirstName).HasColumnName("first_name");
             modelBuilder.Entity<User>().Property(user => user.LastName).HasColumnName("last_name");
         }

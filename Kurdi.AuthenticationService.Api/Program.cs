@@ -5,6 +5,8 @@ using Kurdi.AuthenticationService.Api.Routes;
 using Kurdi.AuthenticationService.Infrastructure.Data;
 using NLog.Web;
 using Kurdi.AuthenticationService.Services.Handlers;
+using Kurdi.AuthenticationService.Core.Entities;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 // NLog: Setup NLog for Dependency injection
@@ -15,8 +17,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors();
 builder.Services.AddDbContext<AppDbContext>();
-builder.Services.AddSingleton<RegisterationService>();
+builder.Services.AddScoped<RegisterationService>();
 builder.Services.AddSingleton<TokenGenerator>();
+builder.Services.AddIdentityCore<User>()
+                .AddEntityFrameworkStores<AppDbContext>();
 
 
 builder.Services.AddLocalization();
