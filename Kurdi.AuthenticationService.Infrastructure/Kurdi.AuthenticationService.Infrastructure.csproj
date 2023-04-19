@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <UserSecretsId>9c011006-b0b2-44f3-9e5a-02b0de580bf7</UserSecretsId>
+  </PropertyGroup>
+
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\Kurdi.AuthenticationService.Core\Kurdi.AuthenticationService.Core.csproj" />
+  </ItemGroup>
+
+
+
+
+</Project>
