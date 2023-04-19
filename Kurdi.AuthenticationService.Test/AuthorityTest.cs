@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Kurdi.AuthenticationServer.Test
 {
-    public class UnitTest1
+    public class AuthorityTest
     {
         [Theory]
         [InlineData("INVENTORY", "PRODUCTS", "CREATE")]
