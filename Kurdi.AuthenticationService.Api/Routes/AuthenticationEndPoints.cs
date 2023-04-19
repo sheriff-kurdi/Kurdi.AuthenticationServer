@@ -10,16 +10,17 @@ using Kurdi.AuthenticationService.Core.Exceptions;
 namespace Kurdi.AuthenticationService.Api.Routes
 {
 
-    public static class AuthenticationPoints
+    public static class AuthenticationEndPoints
     {
         private static Logger logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 
-        public static void UseAuthenticationPoints(this WebApplication app)
+        public static void UseAuthenticationEndPoints(this WebApplication app)
         {
-            RouteGroupBuilder authenticationGroup = app.MapGroup("/api/auth").WithTags("Authentication");
+            RouteGroupBuilder registerationGroup = app.MapGroup("/api/authentication").WithTags("Authentication");
 
-            authenticationGroup.MapPost("/login", Login);
-            authenticationGroup.MapPost("/register", Register);
+            registerationGroup.MapPost("/login", Login);
+            registerationGroup.MapPost("/register", Register);
+
 
 
         }

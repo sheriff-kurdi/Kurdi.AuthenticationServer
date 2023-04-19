@@ -9,6 +9,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Kurdi.AuthenticationService.Core.Exceptions;
+using Microsoft.EntityFrameworkCore;
 
 namespace Kurdi.AuthenticationService.Services
 {
@@ -69,7 +70,7 @@ namespace Kurdi.AuthenticationService.Services
             }
 
 
-            var userRoles = await _userManager.GetRolesAsync(user);
+            user.Authorities =  _dbContext.Users.Include(user => user.Authorities).FirstOrDefaultAsync(u => u.Id == user.Id).Result.Authorities;
 
             var authClaims = new List<Claim>
              {

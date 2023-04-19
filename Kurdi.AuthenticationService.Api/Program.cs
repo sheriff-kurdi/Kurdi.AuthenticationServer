@@ -20,6 +20,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddCors();
 builder.Services.AddDbContext<AppDbContext>();
 builder.Services.AddScoped<RegisterationService>();
+builder.Services.AddScoped<AuthoritiesService>();
+
 builder.Services.AddSingleton<TokenGenerator>();
 builder.Services.AddIdentityCore<User>()
                 .AddEntityFrameworkStores<AppDbContext>();
@@ -36,19 +38,23 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseSwagger(c =>
-{
-    c.RouteTemplate = "swagger/{documentname}/swagger.json";
-});
-app.UseSwaggerUI(c =>
-{
-    c.SwaggerEndpoint("swagger/v1/swagger.json", "My Cool API V1");
-    c.RoutePrefix = "";
-});
+//app.UseSwagger(c =>
+//{
+//    c.RouteTemplate = "swagger/{documentname}/swagger.json";
+//});
+//app.UseSwaggerUI(c =>
+//{
+//    c.SwaggerEndpoint("swagger/v1/swagger.json", "My Cool API V1");
+//    c.RoutePrefix = "";
+//});
+app.UseSwagger();
+app.UseSwaggerUI();
 app.UseCors(cors => { cors.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(); });
 
 
-app.UseAuthenticationPoints();
+app.UseAuthenticationEndPoints();
+app.UseAuthorizationEndPoints();
+
 
 
 app.Run();
